@@ -1,6 +1,7 @@
 class CalcController {
     constructor() {
-        this._locale = "pt-BR"
+        this._operation = [];
+        this._locale = "pt-BR";
         this._displayCalcEl = document.querySelector("#display");
         this._dateCl = document.querySelector("#data");
         this._timeCl = document.querySelector("#hora");
@@ -22,11 +23,77 @@ class CalcController {
         })
     }
 
+    clearAll(){
+        this._operation = [];
+    }
+
+    clearEntry(){
+        this._operation.pop();
+    }
+
+    setError(){
+        this.displayCalc = "ERROR"
+    }
+
+    addOperation(value){
+        this._operation.push(value);
+    }
+
+    execBtn(value){
+        switch (value) {
+            case 'ac':
+                this.clearAll()
+            break;
+
+            case 'ce':
+                this.clearEntry()
+            break;
+
+            case 'soma':
+            break;
+
+            case 'subtracao':
+            break;
+
+            case 'divisao':
+            break;
+
+            case 'multiplicacao':
+            break;
+
+            case 'porcento':
+            break;
+
+            case 'igual':
+            break;
+
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                this.addOperation(parseInt(value));
+            break;
+
+            default:
+                this.setError();
+            break;
+
+
+        }
+    }
+
     initButtonEvents(){
         let buttons = document.querySelectorAll("#buttons > g, #parts > g");
         buttons.forEach(btn => {
             this.addEventListenerAll(btn, 'click drag', e=>{
-                console.log(btn.className.baseVal.replace('btn-',""));
+                let textBtn = btn.className.baseVal.replace('btn-',"");
+                this.execBtn(textBtn)
             });
 
             this.addEventListenerAll(btn, "mouseover mouseup mousedown", e => {
